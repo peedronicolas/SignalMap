@@ -1,0 +1,45 @@
+<resources>
+
+    // Configuracion
+    <string name="app_name">Signal Map</string>
+
+    // Main Activity
+    <string name="textViewMainActivity">Aplicación desarrollada para la práctica de CoMoV.\nPedro N.</string>
+    <string name="textViewPopUp">Nuevo Recorrido</string>
+    <string name="text_info_dialog">Nombre del recorrido</string>
+    <string name="btn1_mainActivity">NUEVO RECORRIDO</string>
+    <string name="btn2_mainActivity">ANALIZAR RECORRIDO</string>
+    <string name="seleccion_recorrido">Seleccione el archivo .json</string>
+
+    // Maps Activity
+    <string name="title_activity_maps">Maps Activity</string>
+    <string name="btn1_MapsActivity">NUEVA ETAPA</string>
+    <string name="btn2_MapsActivity">GUARDAR Y SALIR</string>
+    <string name="btn3_MapsActivity">INICIAR RECORRIDO</string>
+    <string name="btn4_MapsActivity">FINALIZAR RECORRIDO</string>
+    <string name="inicio_etapa">INICIO ETAPA</string>
+    <string name="fin_etapa">FIN ETAPA</string>
+    <string name="confirmacion_guardar">¿Desea guardar y salir?\nLos datos se almacenarán en el fichero</string>
+    <string name="confirmacion_almacenamiento">Los datos del recorrido se han almacenado correctamente.</string>
+    <string name="aviso_2G">Recuerde cambiar los ajustes del terminal para forzar a que se use 2G-GSM.\nEn caso contrario se podrían dar datos erroneos.</string>
+    <string name="error_senal">Algo falló al obtener la señal.</string>
+    <string name="cerrar">CERRAR</string>
+    <string name="descripcion_4G">RSRP (Reference Signal Received Power), es una medida de la potencia de la señal de radio recibida por un dispositivo móvil desde una torre celular específica en una red celular. RSRP es uno de los parámetros clave utilizados para evaluar la calidad del enlace de radio entre un dispositivo móvil y una torre de telefonía móvil en redes de evolución a largo plazo (LTE) y 5G.\n\nUn valor RSRP más alto indica una señal más fuerte, lo que generalmente significa una mejor cobertura de red y velocidades de transferencia de datos potencialmente más altas. Por otro lado, un valor de RSRP más bajo indica una señal más débil, lo que puede resultar en un rendimiento de red deficiente, llamadas interrumpidas y velocidades de transferencia de datos más lentas. Se expresa en dBm.\n\nPara evaluar la calidad de la señal se ha empleado la siguiente escala:</string>
+    <string name="descripcion_2G">RSSI (Received Signal Strength Indicator), es un parámetro que se utiliza en redes inalámbricas para medir la potencia de la señal recibida por un receptor inalámbrico desde un transmisor inalámbrico. En otras palabras, el RSSI indica la intensidad de la señal inalámbrica que llega a un dispositivo receptor.\n\nEn las redes móviles 2G, el RSSI expresado en dBm, siempre posee un valor negativo. La máxima potencia (en la misma torre) corresponde a -51 y la mínima con la que se puede establecer una conexión (la ubicación más alejada) corresponde a -113. Es decir, en la medida que más se aleje del cero el valor, más débil es la señal.\n\nPara evaluar la calidad de la señal se ha empleado la siguiente escala:</string>
+
+    // Analysis Activity
+
+    // Errores
+    <string name="error_no_name">Debe introducir el nombre de recorrido.</string>
+    <string name="error_no_tecnologia">Debe seleccionar una tecnologia.</string>
+    <string name="error_no_permisos">Se necesitan los permisos de ubicación y telefinía para usar esta actividad.</string>
+    <string name="confirmacion_retroceso">¿Desea salir del mapa?\nLos datos podrían perderse.</string>
+    <string name="error_no_permisos_almacenamiento">Se necesitan los permisos de almacenamiento para abrir el explorador de archivos.</string>
+    <string name="error_fichero">Error leyendo o deserializando el fichero.\nPodría estar mal formado el JSON.</string>
+
+
+    // Otros
+    <string name="si">Si</string>
+    <string name="no">No</string>
+
+</resources>
