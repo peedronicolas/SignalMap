@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO: Quitar bypass.
         Intent intent = new Intent(MainActivity.this, AnalysisActivity.class);
-        intent.putExtra("filepath", "/mnt/sdcard/Android/data/es.um.inf.signalmap/files/AlCampo_4G.json");
+        intent.putExtra("filepath", "/mnt/sdcard/Android/data/es.um.inf.signalmap/files/Recorrido_UMU_2G.json");
         startActivity(intent);
     }
 

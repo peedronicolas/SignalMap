@@ -74,7 +74,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FusedLocationProviderClient clientLocationProvider;
     private LocationCallback locationCallback;
     private LatLng currentLatLng = null;
-    private int numEtapa = 1, numPunto = 1;
+    private int numEtapa = 1, numPunto = 0;
     private TelephonyManager telephonyManager;
     private LinkedList<NetworkData> networkData = new LinkedList<>();
     private LinkedList<Marker> marcadoresAntenas = new LinkedList<>();
