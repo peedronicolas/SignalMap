@@ -28,6 +28,7 @@
     <string name="descripcion_2G">RSSI (Received Signal Strength Indicator), es un parámetro que se utiliza en redes inalámbricas para medir la potencia de la señal recibida por un receptor inalámbrico desde un transmisor inalámbrico. En otras palabras, el RSSI indica la intensidad de la señal inalámbrica que llega a un dispositivo receptor.\n\nEn las redes móviles 2G, el RSSI expresado en dBm, siempre posee un valor negativo. La máxima potencia (en la misma torre) corresponde a -51 y la mínima con la que se puede establecer una conexión (la ubicación más alejada) corresponde a -113. Es decir, en la medida que más se aleje del cero el valor, más débil es la señal.\n\nPara evaluar la calidad de la señal se ha empleado la siguiente escala:</string>
 
     // Analysis Activity
+    <string name="etapa">Etapa</string>
 
     // Errores
     <string name="error_no_name">Debe introducir el nombre de recorrido.</string>
