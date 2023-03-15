@@ -33,15 +33,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick_btn1_mainActivity(View v) {
-
-        // Si hacemos click mostramos por pantalla el Cuadro de Dialogo para solicitar la info del recorrido
-        createInfoDialog();
-
-        // TODO: Quitar bypass.
-        // Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-        // intent.putExtra("nombreRecorrido", "Recorrido_UMU");
-        // intent.putExtra("tecnologia", "2G");
-        // startActivity(intent);
+        createInfoDialog(); // Si hacemos click mostramos por pantalla el Cuadro de Dialogo para solicitar la info del recorrido
     }
 
     public void onClick_btn2_mainActivity(View v) {
@@ -71,15 +63,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         dialogFilePicker.show();
-
-        // TODO: Quitar bypass.
-        // Intent intent = new Intent(MainActivity.this, AnalysisActivity.class);
-        // intent.putExtra("filepath", "/mnt/sdcard/Android/data/es.um.inf.signalmap/files/Lorqui_4G.json");
-        // startActivity(intent);
     }
 
     private void createInfoDialog() {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         final View view = inflater.inflate(R.layout.info_dialog, null);

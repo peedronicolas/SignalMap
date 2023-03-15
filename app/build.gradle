@@ -47,7 +47,7 @@ dependencies {
     // Añadimos la dependencia para usar el File Picker
     implementation 'com.github.TutorialsAndroid:FilePicker:v8.0.19'
 
-    // Añadimos la dependencia para poder hacer graficas
+    // Añadimos la dependencia para poder hacer graficas con MPChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     implementation 'androidx.appcompat:appcompat:1.6.1'

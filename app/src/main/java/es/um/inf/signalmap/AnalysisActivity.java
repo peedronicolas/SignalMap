@@ -64,8 +64,8 @@ public class AnalysisActivity extends AppCompatActivity {
         // Establecemos el contenido del layout
         mostrarAviso();
         mostrarResumen();
-        mostrarGraficoBarrasSenal();
         mostrarGraficoBarrasHorizontal();
+        mostrarGraficoBarrasSenal();
         mostrarPieChart();
         mostrarFileContent();
     }
@@ -107,8 +107,8 @@ public class AnalysisActivity extends AppCompatActivity {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(true);
-        xAxis.setGranularity(1f); // Establecer el espacio entre cada barra
-        xAxis.setLabelCount(fileContent.getNumEtapas()); // Establecer el número de etiquetas
+        xAxis.setGranularity(1f);
+        xAxis.setLabelCount(fileContent.getNumEtapas());
         xAxis.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
@@ -147,7 +147,7 @@ public class AnalysisActivity extends AppCompatActivity {
         horizontalBarChart.setScaleEnabled(false);
         horizontalBarChart.setPinchZoom(false);
         horizontalBarChart.setDrawValueAboveBar(true);
-        horizontalBarChart.invalidate(); // Actualizar grafico
+        horizontalBarChart.invalidate();
     }
 
     public void mostrarGraficoBarrasSenal() {
@@ -157,7 +157,7 @@ public class AnalysisActivity extends AppCompatActivity {
         XAxis xAxis = barChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
-        xAxis.setGranularity(1f); // Distancia entre cada entrada de datos
+        xAxis.setGranularity(1f);
 
         // Configuración del eje y
         YAxis leftAxis = barChart.getAxisLeft();
