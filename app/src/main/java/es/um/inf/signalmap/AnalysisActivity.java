@@ -2,19 +2,24 @@ package es.um.inf.signalmap;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -31,6 +36,7 @@ import java.util.stream.Collectors;
 public class AnalysisActivity extends AppCompatActivity {
 
     private String filePath;
+    private String tecnologia;
     private NetworkData[] networkData;
 
     @Override
@@ -44,6 +50,10 @@ public class AnalysisActivity extends AppCompatActivity {
         filePath = getIntent().getStringExtra("filepath");
         getFileContent(filePath);
 
+        // Obtenemos la tecnologia
+        // TODO Obtener del fichero
+        tecnologia = "4G";
+
         // Establecemos el nombre del recorrido en la actividad
         TextView textViewFileName = findViewById(R.id.textViewFileName);
         textViewFileName.setText(new File(filePath).getName());
@@ -53,6 +63,7 @@ public class AnalysisActivity extends AppCompatActivity {
         mostrarResumen();
         mostrarGraficoBarrasSenal();
         mostrarGraficoBarrasHorizontal();
+        mostrarPieChart();
         mostrarFileContent();
     }
 
@@ -117,7 +128,7 @@ public class AnalysisActivity extends AppCompatActivity {
 
         // Crear conjunto de datos y personalizar colores
         BarDataSet dataSet = new BarDataSet(entries, "Signal Values");
-        dataSet.setColor(Color.parseColor("#99C9FF"));
+        dataSet.setColor(Constantes.COLOR_AZUL);
 
         // Crear objeto BarData con el conjunto de datos y etiquetas
         BarData barData = new BarData(dataSet);
@@ -159,17 +170,31 @@ public class AnalysisActivity extends AppCompatActivity {
 
         BarDataSet dataSet = new BarDataSet(entries, "Signal Values");
 
-        // Configuración de los colores de las barras segun el valor
+        // Configuración de los colores de las barras segun el valor y la tecnologia
         List<Integer> colors = new ArrayList<>();
         for (BarEntry entry : entries) {
-            if (entry.getY() >= -80)
-                colors.add(Color.parseColor("#43AC3B")); // EXCELENT -> Verde
-            else if (entry.getY() < -80 && entry.getY() >= -90)
-                colors.add(Color.parseColor("#fef500")); // GOOD -> Amarillo
-            else if (entry.getY() < -90 && entry.getY() >= -100)
-                colors.add(Color.parseColor("#ff9500")); // FAIR -> Naranja
-            else if (entry.getY() < -100)
-                colors.add(Color.parseColor("#ff2b00")); // POOR -> Rojo
+            if (tecnologia.equals("4G")) {
+                if (entry.getY() >= -80)
+                    colors.add(Constantes.COLOR_VERDE); // EXCELENT -> Verde
+                else if (entry.getY() < -80 && entry.getY() >= -90)
+                    colors.add(Constantes.COLOR_AMARILLO); // GOOD -> Amarillo
+                else if (entry.getY() < -90 && entry.getY() > -100)
+                    colors.add(Constantes.COLOR_NARANJA); // FAIR -> Naranja
+                else if (entry.getY() <= -100)
+                    colors.add(Constantes.COLOR_ROJO); // POOR -> Rojo
+            } else if (tecnologia.equals("2G")) {
+                if (entry.getY() >= -70)
+                    colors.add(Constantes.COLOR_VERDE); // EXCELENT -> Verde
+                else if (entry.getY() < -70 && entry.getY() >= -85)
+                    colors.add(Constantes.COLOR_AMARILLO); // GOOD -> Amarillo
+                else if (entry.getY() < -85 && entry.getY() >= -100)
+                    colors.add(Constantes.COLOR_NARANJA); // FAIR -> Naranja
+                else if (entry.getY() < -100)
+                    colors.add(Constantes.COLOR_ROJO); // POOR -> Rojo
+            } else {
+                Log.d("DEBUG", "ERROR en mostrarGraficoBarrasSenal(), tecnologia no valida.");
+                return;
+            }
         }
         dataSet.setColors(colors);
 
@@ -182,6 +207,50 @@ public class AnalysisActivity extends AppCompatActivity {
         barChart.setScaleYEnabled(false); // Quitar zoom en el eje Y
         barChart.animateY(1000); // Agregamos animación de entrada
         barChart.invalidate(); // Actualizar gráfico
+    }
+
+    public void mostrarPieChart() {
+        // Calculamos los datos de nuestro recorrido
+        int numPuntosTotales = (int) Arrays.stream(networkData).count();
+        int numPuntosExcelent, numPuntosGood, numPuntosFair, numPuntosPoor;
+        if (tecnologia.equals("4G")) {
+            numPuntosExcelent = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() >= -80).count();
+            numPuntosGood = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() < -80 && ND.getMaxSignal() >= -90).count();
+            numPuntosFair = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() < -90 && ND.getMaxSignal() > -100).count();
+            numPuntosPoor = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() <= -100).count();
+        } else if (tecnologia.equals("2G")) {
+            numPuntosExcelent = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() >= -70).count();
+            numPuntosGood = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() < -70 && ND.getMaxSignal() >= -85).count();
+            numPuntosFair = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() < -85 && ND.getMaxSignal() >= -100).count();
+            numPuntosPoor = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() < -100).count();
+        } else {
+            Log.d("DEBUG", "ERROR en mostrarPieChart(), tecnologia no valida.");
+            return;
+        }
+
+        // Almacenar los valores (calculando el %) y etiquetas del gráfico
+        ArrayList<PieEntry> pieEntries = new ArrayList<>();
+        pieEntries.add(new PieEntry(((float) numPuntosExcelent / (float) numPuntosTotales) * 100, "EXCELENT"));
+        pieEntries.add(new PieEntry(((float) numPuntosGood / (float) numPuntosTotales) * 100, "GOOD"));
+        pieEntries.add(new PieEntry(((float) numPuntosFair / (float) numPuntosTotales) * 100, "FAIR"));
+        pieEntries.add(new PieEntry(((float) numPuntosPoor / (float) numPuntosTotales) * 100, "POOR"));
+
+        // Crear el PieDataSet con los valores y etiquetas
+        PieDataSet pieDataSet = new PieDataSet(pieEntries, "");
+        pieDataSet.setColors(Constantes.COLOR_VERDE, Constantes.COLOR_AMARILLO, Constantes.COLOR_NARANJA, Constantes.COLOR_ROJO);
+
+        PieData pieData = new PieData(pieDataSet);
+        pieData.setValueFormatter(new PercentFormatter()); // Formato de los valores como porcentajes
+
+        // Configurar el objeto PieChart
+        PieChart pieChart = findViewById(R.id.pieChart);
+        pieChart.setData(pieData);
+        pieChart.getDescription().setEnabled(false); // Desactivar la descripción
+        pieChart.setCenterText("%"); // Establecer el texto central
+        pieChart.setDrawEntryLabels(false); // Desactivar las etiquetas de los valores
+        pieChart.setUsePercentValues(true); // Utilizar porcentajes en lugar de valores absolutos
+        pieChart.animateY(1000, Easing.EaseInOutCubic); // Animación del gráfico
+        pieChart.invalidate();
     }
 
     public void mostrarFileContent() {

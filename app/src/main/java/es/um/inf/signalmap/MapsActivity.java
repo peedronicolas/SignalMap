@@ -238,23 +238,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (tecnologia.equals("4G"))
             if (ND.getMaxSignal() >= -80)
-                color = Color.parseColor("#43AC3B"); // EXCELENT -> Verde
+                color = Constantes.COLOR_VERDE; // EXCELENT -> Verde
             else if (ND.getMaxSignal() < -80 && ND.getMaxSignal() >= -90)
-                color = Color.parseColor("#fef500"); // GOOD -> Amarillo
+                color = Constantes.COLOR_AMARILLO; // GOOD -> Amarillo
             else if (ND.getMaxSignal() < -90 && ND.getMaxSignal() > -100)
-                color = Color.parseColor("#ff9500"); // FAIR -> Naranja
+                color = Constantes.COLOR_NARANJA; // FAIR -> Naranja
             else if (ND.getMaxSignal() <= -100)
-                color = Color.parseColor("#ff2b00"); // POOR -> Rojo
+                color = Constantes.COLOR_ROJO; // POOR -> Rojo
 
         if (tecnologia.equals("2G"))
             if (ND.getMaxSignal() >= -70)
-                color = Color.parseColor("#43AC3B"); // EXCELENT -> Verde
+                color = Constantes.COLOR_VERDE; // EXCELENT -> Verde
             else if (ND.getMaxSignal() < -70 && ND.getMaxSignal() >= -85)
-                color = Color.parseColor("#fef500"); // GOOD -> Amarillo
+                color = Constantes.COLOR_AMARILLO; // GOOD -> Amarillo
             else if (ND.getMaxSignal() < -85 && ND.getMaxSignal() >= -100)
-                color = Color.parseColor("#ff9500"); // FAIR -> Naranja
+                color = Constantes.COLOR_NARANJA;  // FAIR -> Naranja
             else if (ND.getMaxSignal() < -100)
-                color = Color.parseColor("#ff2b00"); // POOR -> Rojo
+                color = Constantes.COLOR_ROJO; // POOR -> Rojo
 
         // Definimos la informacion del marcador
         String title = String.valueOf(numPunto);

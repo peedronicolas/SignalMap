@@ -48,7 +48,7 @@
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gráfica de máximos por etapa." />
+                android:text="Gráfica de la señal máxima detectada por etapa." />
 
             <Space
                 android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gráfica de máximos por punto." />
+                android:text="Gráfica de la señal máxima detectada por punto.\n(Se puede hacer zoom en el eje X para ver en detalle algun punto concreto)" />
 
             <Space
                 android:layout_width="match_parent"
@@ -86,7 +86,26 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="El contenido del fichero:" />
+                android:text="¿Cómo se reparte la calidad de la señal a lo largo del recorrido?" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="25dp" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChart"
+                android:layout_width="match_parent"
+                android:layout_height="300dp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="25dp" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contenido del fichero .json con todos los datos:" />
 
             <Space
                 android:layout_width="match_parent"
