@@ -29,7 +29,6 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,8 +39,8 @@ import java.util.stream.Collectors;
 
 public class AnalysisActivity extends AppCompatActivity {
 
-    private String filePath;
     private String tecnologia;
+    private FileContent fileContent;
     private NetworkData[] networkData;
 
     @Override
@@ -51,17 +50,16 @@ public class AnalysisActivity extends AppCompatActivity {
 
         Log.d("DEBUG", "Hemos llegado a onCreate() en AnalysisActivity");
 
-        // Obtenemos la ruta y el contenido del fichero
-        filePath = getIntent().getStringExtra("filepath");
-        getFileContent(filePath);
+        // Leemos el contenido del fichero
+        getFileContent(getIntent().getStringExtra("filepath"));
 
-        // Obtenemos la tecnologia
-        // TODO Obtener del fichero
-        tecnologia = "2G";
+        // Obtenemos la tecnologia y el NetworkData
+        tecnologia = fileContent.getTecnologia();
+        networkData = fileContent.getNetworkData();
 
         // Establecemos el nombre del recorrido en la actividad
         TextView textViewFileName = findViewById(R.id.textViewFileName);
-        textViewFileName.setText(new File(filePath).getName());
+        textViewFileName.setText(fileContent.getName());
 
         // Establecemos el contenido del layout
         mostrarAviso();
@@ -82,11 +80,14 @@ public class AnalysisActivity extends AppCompatActivity {
         String resumen = "";
 
         resumen += "Aquí un resumen de tu recorrido:\n\n";
-        resumen += "- Total de puntos: " + networkData.length + "\n";
-        resumen += "- Total de etapas: " + (int) Arrays.stream(networkData).mapToDouble(NetworkData::getEtapa).max().orElse(0.0) + "\n";
+        resumen += "- Tecnología: " + fileContent.getTecnologia() + "\n";
+        resumen += "- Total de puntos: " + fileContent.getNumPuntos() + "\n";
+        resumen += "- Total de etapas: " + fileContent.getNumEtapas() + "\n";
         resumen += "- Maxima señal detectada del recorrido: " + Arrays.stream(networkData).mapToDouble(NetworkData::getMaxSignal).max().orElse(0.0) + " dBm" + "\n";
         resumen += "- Media de los máximos detectados: " + new DecimalFormat("#.##").format(Arrays.stream(networkData).mapToDouble(NetworkData::getMaxSignal).average().orElse(0.0)) + " dBm" + "\n";
         resumen += "- Minimo de los máximos detectados: " + (int) Arrays.stream(networkData).mapToDouble(NetworkData::getMaxSignal).min().orElse(0.0) + " dBm" + "\n";
+        resumen += "- Cantidad de antenas a las que se conectó: " + fileContent.getNumAntenas() + "\n";
+        resumen += "- Cambios de antenas producidos: " + -1 + "\n";
         resumen += "\n\n";
         resumen += "Distribucion de puntos por etapa:\n";
 
@@ -101,15 +102,13 @@ public class AnalysisActivity extends AppCompatActivity {
     public void mostrarGraficoBarrasHorizontal() {
         HorizontalBarChart horizontalBarChart = findViewById(R.id.horizontalBarChart);
 
-        int numEtapas = (int) Arrays.stream(networkData).mapToDouble(NetworkData::getEtapa).max().orElse(0.0);
-
         // Personalizar eje X
         XAxis xAxis = horizontalBarChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(true);
         xAxis.setGranularity(1f); // Establecer el espacio entre cada barra
-        xAxis.setLabelCount(numEtapas); // Establecer el número de etiquetas
+        xAxis.setLabelCount(fileContent.getNumEtapas()); // Establecer el número de etiquetas
         xAxis.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
@@ -125,7 +124,7 @@ public class AnalysisActivity extends AppCompatActivity {
 
         // Añadimos las barras con los datos
         ArrayList<BarEntry> entries = new ArrayList<>();
-        for (int i = 1; i <= numEtapas; i++) {
+        for (int i = 1; i <= fileContent.getNumEtapas(); i++) {
             final int etapa = i;
             double maxEtapa = Arrays.stream(networkData).filter(ND -> ND.getEtapa() == etapa).mapToDouble(NetworkData::getMaxSignal).max().orElse(0.0);
             entries.add(new BarEntry(i, (float) maxEtapa));
@@ -140,7 +139,7 @@ public class AnalysisActivity extends AppCompatActivity {
 
         // Personaliza y muestra el grafico
         horizontalBarChart.setData(barData);
-        horizontalBarChart.getLegend().setEnabled(false); // Desactivamos la leyenda
+        horizontalBarChart.getLegend().setEnabled(false);
         horizontalBarChart.setDescription(null);
         horizontalBarChart.setDrawGridBackground(false);
         horizontalBarChart.setTouchEnabled(false);
@@ -216,7 +215,7 @@ public class AnalysisActivity extends AppCompatActivity {
 
     public void mostrarPieChart() {
         // Calculamos los datos de nuestro recorrido
-        int numPuntosTotales = (int) Arrays.stream(networkData).count();
+        int numPuntosTotales = fileContent.getNumPuntos();
         int numPuntosExcelent, numPuntosGood, numPuntosFair, numPuntosPoor;
         if (tecnologia.equals("4G")) {
             numPuntosExcelent = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() >= -80).count();
@@ -260,7 +259,7 @@ public class AnalysisActivity extends AppCompatActivity {
 
     public void mostrarFileContent() {
         TextView textViewFileContent = findViewById(R.id.textViewFileContent);
-        textViewFileContent.setText(new GsonBuilder().setPrettyPrinting().create().toJson(networkData));
+        textViewFileContent.setText(new GsonBuilder().setPrettyPrinting().create().toJson(fileContent));
     }
 
     public void onClickBtnInfo(View v) {
@@ -298,7 +297,7 @@ public class AnalysisActivity extends AppCompatActivity {
 
     public void getFileContent(String filename) {
         try {
-            networkData = new Gson().fromJson(StorageHelper.readStringFromFile(filename, this), NetworkData[].class);
+            fileContent = new Gson().fromJson(StorageHelper.readStringFromFile(filename, this), FileContent.class);
         } catch (Exception e) {
             Log.e("DEBUG", "[getFileContent()] Error leyendo o deserializando el fichero");
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_fichero), Toast.LENGTH_SHORT).show();

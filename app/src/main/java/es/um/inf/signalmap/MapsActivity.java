@@ -49,6 +49,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -586,7 +588,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void saveInfo(String filename) {
         try {
-            StorageHelper.saveStringToFile(filename, new GsonBuilder().setPrettyPrinting().create().toJson(networkData), this);
+            String date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+            FileContent FC = new FileContent(filename, date, tecnologia, numEtapa, networkData.size(), marcadoresAntenas.size(), networkData.toArray(new NetworkData[networkData.size()]));
+
+            StorageHelper.saveStringToFile(filename, new GsonBuilder().setPrettyPrinting().create().toJson(FC), this);
+
             Log.d("DEBUG", "Guardada la info del recorrido en almacenamiento.");
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.confirmacion_almacenamiento), Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
