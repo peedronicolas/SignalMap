@@ -1,7 +1,7 @@
 <resources>
 
     // Configuracion
-    <string name="app_name">Signal Map</string>
+    <string name="app_name" translatable="false">Signal Map</string>
 
     // Main Activity
     <string name="textViewMainActivity">Aplicación desarrollada para la práctica de CoMoV.\nPedro N.</string>
@@ -12,7 +12,7 @@
     <string name="seleccion_recorrido">Seleccione el archivo .json</string>
 
     // Maps Activity
-    <string name="title_activity_maps">Maps Activity</string>
+    <string name="title_activity_maps" translatable="false">Maps Activity</string>
     <string name="btn1_MapsActivity">NUEVA ETAPA</string>
     <string name="btn2_MapsActivity">GUARDAR Y SALIR</string>
     <string name="btn3_MapsActivity">INICIAR RECORRIDO</string>
@@ -50,13 +50,13 @@
     // Errores
     <string name="error_no_name">Debe introducir el nombre de recorrido.</string>
     <string name="error_no_tecnologia">Debe seleccionar una tecnologia.</string>
-    <string name="error_no_permisos">Se necesitan los permisos de ubicación y telefinía para usar esta actividad.</string>
+    <string name="error_no_permisos">Se necesitan los permisos de ubicación y telefonía para usar esta actividad.</string>
     <string name="confirmacion_retroceso">¿Desea salir del mapa?\nLos datos podrían perderse.</string>
     <string name="error_no_permisos_almacenamiento">Se necesitan los permisos de almacenamiento para abrir el explorador de archivos.</string>
     <string name="error_fichero">Error leyendo o deserializando el fichero.\nPodría estar mal formado el JSON.</string>
 
     // Otros
     <string name="si">Si</string>
-    <string name="no">No</string>
+    <string name="no" translatable="false">No</string>
 
 </resources>

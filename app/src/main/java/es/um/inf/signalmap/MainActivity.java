@@ -65,17 +65,17 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("DEBUG", "Seleccionado el fichero: " + files[0]);
 
                 // Abrimos la actividad de ANALISIS
-                // Intent intent = new Intent(MainActivity.this, AnalysisActivity.class);
-                // intent.putExtra("filepath", files[0]);
-                // startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, AnalysisActivity.class);
+                intent.putExtra("filepath", files[0]);
+                startActivity(intent);
             }
         });
-        // dialogFilePicker.show();
+        dialogFilePicker.show();
 
         // TODO: Quitar bypass.
-        Intent intent = new Intent(MainActivity.this, AnalysisActivity.class);
-        intent.putExtra("filepath", "/mnt/sdcard/Android/data/es.um.inf.signalmap/files/Lorqui_4G.json");
-        startActivity(intent);
+        // Intent intent = new Intent(MainActivity.this, AnalysisActivity.class);
+        // intent.putExtra("filepath", "/mnt/sdcard/Android/data/es.um.inf.signalmap/files/Lorqui_4G.json");
+        // startActivity(intent);
     }
 
     private void createInfoDialog() {

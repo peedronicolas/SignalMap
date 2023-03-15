@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    // Main Activity
+    <string name="textViewMainActivity">Application developed for CoMoV.\nPedro N.</string>
+    <string name="textViewPopUp">New Route</string>
+    <string name="text_info_dialog">Name of the route</string>
+    <string name="btn1_mainActivity">NEW ROUTE</string>
+    <string name="btn2_mainActivity">ANALYZE ROUTE</string>
+    <string name="seleccion_recorrido">Select the .json file</string>
+
+    // Maps Activity
+    <string name="btn1_MapsActivity">NEW STAGE</string>
+    <string name="btn2_MapsActivity">SAVE AND EXIT</string>
+    <string name="btn3_MapsActivity">START ROUTE</string>
+    <string name="btn4_MapsActivity">END ROUTE</string>
+    <string name="inicio_etapa">START STAGE</string>
+    <string name="fin_etapa">END STAGE</string>
+    <string name="confirmacion_guardar">Do you want to save and exit?\nThe data will be saved in the file</string>
+    <string name="confirmacion_almacenamiento">The trip data has been stored correctly.</string>
+    <string name="aviso_2G">Remember to change the terminal settings to force 2G-GSM to be used, otherwise erroneous data may be given.</string>
+    <string name="error_senal">Something went wrong in getting the signal.</string>
+    <string name="cerrar">CLOSE</string>
+    <string name="descripcion_4G">RSRP (Reference Signal Received Power), is a measure of the radio signal strength received by a mobile device from a specific cellular tower in a cellular network. RSRP is one of the key parameters used to assess the quality of the radio link between a mobile device and a cell tower in Long Term Evolution (LTE) and 5G networks.\n\nA higher RSRP value indicates a stronger signal, which generally means better network coverage and potentially higher data transfer rates. On the other hand, a lower RSRP value indicates a weaker signal, which can result in poor network performance, dropped calls and slower data transfer speeds. It is expressed in dBm.\n\nThe following scale has been used to evaluate signal quality:</string>
+    <string name="descripcion_2G">RSSI (Received Signal Strength Indicator) is a parameter used in wireless networks to measure the signal strength received by a wireless receiver from a wireless transmitter. In other words, RSSI indicates the strength of the wireless signal reaching a receiving device.\n\nIn 2G mobile networks, RSSI expressed in dBm, always has a negative value. The maximum power (at the same tower) corresponds to -51 and the minimum with which a connection can be established (the furthest location) corresponds to -113.\n\nThe following scale has been used to evaluate the signal quality:</string>
+
+    // Analysis Activity
+    <string name="etapa">Stage</string>
+    <string name="aviso">Note: Remember that all signal values are measured in dBm, so the best points where signal was obtained are at the minima of the graphs, not at the maxima.</string>
+    <string name="resumen">Here is a summary of your tour:</string>
+    <string name="tecnologia">Technology:</string>
+    <string name="total_puntos">Total points:</string>
+    <string name="total_etapas">Total stages:</string>
+    <string name="max_signal">Maximum signal detected on the route:</string>
+    <string name="average_signal">Average of the maximums detected:</string>
+    <string name="min_signal">Minimum of the maximums detected:</string>
+    <string name="numAntenas">Number of antennas to which it was connected:</string>
+    <string name="numCambioAntena">Antenna changes produced:</string>
+    <string name="distribucionPorEtapa">Distribucion de puntos por etapa:</string>
+    <string name="del">from</string>
+    <string name="al">to</string>
+    <string name="AA_textView1">Graph of the maximum signal detected per stage.</string>
+    <string name="AA_textView2">Graph of the maximum signal detected per point.\n(You can zoom in the X axis to see in detail).</string>
+    <string name="AA_textView3">How is the signal quality distributed along the route?</string>
+    <string name="AA_textView4">Content of the .json file with all data:</string>
+
+    // Errores
+    <string name="error_no_name">You must enter the route name.</string>
+    <string name="error_no_tecnologia">You must select a technology.</string>
+    <string name="error_no_permisos">Location and telephone permits are required to use this activity.</string>
+    <string name="confirmacion_retroceso">Do you want to leave the map?\nData could be lost.</string>
+    <string name="error_no_permisos_almacenamiento">Storage permissions are required to open the file explorer.</string>
+    <string name="error_fichero">Error reading or deserializing the .json file.\nThe JSON could be malformed.</string>
+
+    // Otros
+    <string name="si">Yes</string>
+
+</resources>
