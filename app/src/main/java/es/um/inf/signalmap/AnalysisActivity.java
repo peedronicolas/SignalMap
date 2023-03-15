@@ -2,8 +2,13 @@ package es.um.inf.signalmap;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,7 +57,7 @@ public class AnalysisActivity extends AppCompatActivity {
 
         // Obtenemos la tecnologia
         // TODO Obtener del fichero
-        tecnologia = "4G";
+        tecnologia = "2G";
 
         // Establecemos el nombre del recorrido en la actividad
         TextView textViewFileName = findViewById(R.id.textViewFileName);
@@ -256,6 +261,39 @@ public class AnalysisActivity extends AppCompatActivity {
     public void mostrarFileContent() {
         TextView textViewFileContent = findViewById(R.id.textViewFileContent);
         textViewFileContent.setText(new GsonBuilder().setPrettyPrinting().create().toJson(networkData));
+    }
+
+    public void onClickBtnInfo(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.popup_leyenda, null);
+
+        // Configurar el título, la descripción y la imagen segun la tecnologia
+        TextView tvTitulo = view.findViewById(R.id.tv_titulo);
+        TextView tvDescripcion = view.findViewById(R.id.tv_descripcion);
+        ImageView img = view.findViewById(R.id.rangeImage);
+
+        if (tecnologia.equals("4G")) {
+            tvTitulo.setText("4G (LTE)");
+            tvDescripcion.setText(getResources().getString(R.string.descripcion_4G));
+            img.setImageResource(R.drawable.range4g);
+        }
+
+        if (tecnologia.equals("2G")) {
+            tvTitulo.setText("2G (GSM)");
+            tvDescripcion.setText(getResources().getString(R.string.descripcion_2G));
+            img.setImageResource(R.drawable.range2g);
+        }
+
+        builder.setView(view);
+        builder.setPositiveButton(getResources().getString(R.string.cerrar), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public void getFileContent(String filename) {
