@@ -24,20 +24,35 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/textViewAviso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textStyle="bold|italic" />
+
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="20dp" />
+                android:layout_height="25dp" />
+
+            <TextView
+                android:id="@+id/textViewResumen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="25dp" />
 
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-                android:text="Gráfica de maximos por etapa." />
+                android:text="Gráfica de máximos por etapa." />
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="20dp" />
+                android:layout_height="25dp" />
 
             <com.github.mikephil.charting.charts.HorizontalBarChart
                 android:id="@+id/horizontalBarChart"
@@ -46,17 +61,17 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="20dp" />
+                android:layout_height="25dp" />
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gráfica de máximos recogidos en cada punto." />
+                android:text="Gráfica de máximos por punto." />
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="20dp" />
+                android:layout_height="25dp" />
 
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/barChartSignal"
@@ -65,7 +80,7 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="20dp" />
+                android:layout_height="25dp" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -75,7 +90,7 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="20dp" />
+                android:layout_height="25dp" />
 
             <TextView
                 android:id="@+id/textViewFileContent"

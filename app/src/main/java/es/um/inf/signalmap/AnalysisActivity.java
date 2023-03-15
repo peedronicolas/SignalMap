@@ -20,9 +20,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.IntSummaryStatistics;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class AnalysisActivity extends AppCompatActivity {
 
@@ -44,12 +48,38 @@ public class AnalysisActivity extends AppCompatActivity {
         TextView textViewFileName = findViewById(R.id.textViewFileName);
         textViewFileName.setText(new File(filePath).getName());
 
+        // Establecemos el contenido del layout
+        mostrarAviso();
+        mostrarResumen();
         mostrarGraficoBarrasSenal();
         mostrarGraficoBarrasHorizontal();
+        mostrarFileContent();
+    }
 
-        // Establecemos el contenido del fichero
-        TextView textViewFileContent = findViewById(R.id.textViewFileContent);
-        textViewFileContent.setText(new GsonBuilder().setPrettyPrinting().create().toJson(networkData));
+    public void mostrarAviso() {
+        TextView textViewAviso = findViewById(R.id.textViewAviso);
+        textViewAviso.setText("Aviso: Recuerda que todos los valores de señal están medidos en dBm, por lo que los mejores puntos donde se obtuvo señal es en los minimos de las gráficas, no en los máximos.");
+    }
+
+    public void mostrarResumen() {
+        TextView textViewResumen = findViewById(R.id.textViewResumen);
+        String resumen = "";
+
+        resumen += "Aquí un resumen de tu recorrido:\n\n";
+        resumen += "- Total de puntos: " + networkData.length + "\n";
+        resumen += "- Total de etapas: " + (int) Arrays.stream(networkData).mapToDouble(NetworkData::getEtapa).max().orElse(0.0) + "\n";
+        resumen += "- Maxima señal detectada del recorrido: " + Arrays.stream(networkData).mapToDouble(NetworkData::getMaxSignal).max().orElse(0.0) + " dBm" + "\n";
+        resumen += "- Media de los máximos detectados: " + new DecimalFormat("#.##").format(Arrays.stream(networkData).mapToDouble(NetworkData::getMaxSignal).average().orElse(0.0)) + " dBm" + "\n";
+        resumen += "- Minimo de los máximos detectados: " + (int) Arrays.stream(networkData).mapToDouble(NetworkData::getMaxSignal).min().orElse(0.0) + " dBm" + "\n";
+        resumen += "\n\n";
+        resumen += "Distribucion de puntos por etapa:\n";
+
+        // Para agrupar por etapas y obtener el idPunto maximo y minimo de cada una (donde empieza y donde acaba)
+        Map<Integer, IntSummaryStatistics> map = Arrays.stream(networkData).collect(Collectors.groupingBy(NetworkData::getEtapa, Collectors.summarizingInt(NetworkData::getId_punto)));
+        for (Map.Entry<Integer, IntSummaryStatistics> entry : map.entrySet())
+            resumen += "\n- Etapa " + entry.getKey() + ": del " + entry.getValue().getMin() + " al " + entry.getValue().getMax() + ".";
+
+        textViewResumen.setText(resumen);
     }
 
     public void mostrarGraficoBarrasHorizontal() {
@@ -132,11 +162,11 @@ public class AnalysisActivity extends AppCompatActivity {
         // Configuración de los colores de las barras segun el valor
         List<Integer> colors = new ArrayList<>();
         for (BarEntry entry : entries) {
-            if (entry.getY() >= -70)
+            if (entry.getY() >= -80)
                 colors.add(Color.parseColor("#43AC3B")); // EXCELENT -> Verde
-            else if (entry.getY() < -70 && entry.getY() >= -85)
+            else if (entry.getY() < -80 && entry.getY() >= -90)
                 colors.add(Color.parseColor("#fef500")); // GOOD -> Amarillo
-            else if (entry.getY() < -85 && entry.getY() >= -100)
+            else if (entry.getY() < -90 && entry.getY() >= -100)
                 colors.add(Color.parseColor("#ff9500")); // FAIR -> Naranja
             else if (entry.getY() < -100)
                 colors.add(Color.parseColor("#ff2b00")); // POOR -> Rojo
@@ -152,6 +182,11 @@ public class AnalysisActivity extends AppCompatActivity {
         barChart.setScaleYEnabled(false); // Quitar zoom en el eje Y
         barChart.animateY(1000); // Agregamos animación de entrada
         barChart.invalidate(); // Actualizar gráfico
+    }
+
+    public void mostrarFileContent() {
+        TextView textViewFileContent = findViewById(R.id.textViewFileContent);
+        textViewFileContent.setText(new GsonBuilder().setPrettyPrinting().create().toJson(networkData));
     }
 
     public void getFileContent(String filename) {
