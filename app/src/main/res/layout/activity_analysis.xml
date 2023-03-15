@@ -82,6 +82,25 @@
                 android:layout_height="25dp" />
 
             <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/AA_textView3" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="25dp" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChart"
+                android:layout_width="match_parent"
+                android:layout_height="300dp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="25dp" />
+
+            <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -101,17 +120,17 @@
                 android:layout_height="25dp" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/AA_textView3" />
+                android:text="@string/AA_textView5" />
 
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="25dp" />
 
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/pieChart"
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/barChartCell"
                 android:layout_width="match_parent"
                 android:layout_height="300dp" />
 

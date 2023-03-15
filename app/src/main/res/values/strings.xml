@@ -40,12 +40,14 @@
     <string name="numAntenas">Cantidad de antenas a las que se conectó:</string>
     <string name="numCambioAntena">Cambios de antenas producidos:</string>
     <string name="distribucionPorEtapa">Distribucion de puntos por etapa:</string>
+    <string name="average_cell">Media de celdas detectadas por punto:</string>
     <string name="del">del</string>
     <string name="al">al</string>
     <string name="AA_textView1">Gráfica de la señal máxima detectada por etapa.</string>
     <string name="AA_textView2">Gráfica de la señal máxima detectada por punto.\n(Se puede hacer zoom en el eje X para ver en detalle)</string>
     <string name="AA_textView3">¿Cómo se reparte la calidad de la señal a lo largo del recorrido?</string>
     <string name="AA_textView4">Contenido del fichero .json con todos los datos:</string>
+    <string name="AA_textView5">Gráfica de celdas detectadas por punto.\n(Se puede hacer zoom en el eje X para ver en detalle)</string>
 
     // Errores
     <string name="error_no_name">Debe introducir el nombre de recorrido.</string>

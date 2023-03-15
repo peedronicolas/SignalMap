@@ -65,8 +65,9 @@ public class AnalysisActivity extends AppCompatActivity {
         mostrarAviso();
         mostrarResumen();
         mostrarGraficoBarrasHorizontal();
-        mostrarGraficoBarrasSenal();
         mostrarPieChart();
+        mostrarGraficoBarrasSenal();
+        mostrarGraficoBarrasCeldas();
         mostrarFileContent();
     }
 
@@ -83,11 +84,12 @@ public class AnalysisActivity extends AppCompatActivity {
         resumen += "- " + getResources().getString(R.string.tecnologia) + " " + fileContent.getTecnologia() + "\n";
         resumen += "- " + getResources().getString(R.string.total_puntos) + " " + fileContent.getNumPuntos() + "\n";
         resumen += "- " + getResources().getString(R.string.total_etapas) + " " + fileContent.getNumEtapas() + "\n";
-        resumen += "- " + getResources().getString(R.string.max_signal) + " " + Arrays.stream(networkData).mapToDouble(NetworkData::getMaxSignal).max().orElse(0.0) + " dBm" + "\n";
-        resumen += "- " + getResources().getString(R.string.average_signal) + " " + new DecimalFormat("#.##").format(Arrays.stream(networkData).mapToDouble(NetworkData::getMaxSignal).average().orElse(0.0)) + " dBm" + "\n";
+        resumen += "- " + getResources().getString(R.string.max_signal) + " " + (int) Arrays.stream(networkData).mapToDouble(NetworkData::getMaxSignal).max().orElse(0.0) + " dBm" + "\n";
+        resumen += "- " + getResources().getString(R.string.average_signal) + " " + new DecimalFormat("#.#").format(Arrays.stream(networkData).mapToDouble(NetworkData::getMaxSignal).average().orElse(0.0)) + " dBm" + "\n";
         resumen += "- " + getResources().getString(R.string.min_signal) + " " + (int) Arrays.stream(networkData).mapToDouble(NetworkData::getMaxSignal).min().orElse(0.0) + " dBm" + "\n";
         resumen += "- " + getResources().getString(R.string.numAntenas) + " " + fileContent.getNumAntenas() + "\n";
         resumen += "- " + getResources().getString(R.string.numCambioAntena) + " " + fileContent.getNumCambiosAntena() + "\n";
+        resumen += "- " + getResources().getString(R.string.average_cell) + " " + new DecimalFormat("#.#").format(Arrays.stream(networkData).mapToDouble(NetworkData::getNumceldas).average().orElse(0.0)) + "\n";
         resumen += "\n\n";
         resumen += getResources().getString(R.string.distribucionPorEtapa) + "\n";
 
@@ -147,7 +149,52 @@ public class AnalysisActivity extends AppCompatActivity {
         horizontalBarChart.setScaleEnabled(false);
         horizontalBarChart.setPinchZoom(false);
         horizontalBarChart.setDrawValueAboveBar(true);
+        horizontalBarChart.animateY(1000); // Agregamos animación de entrada
         horizontalBarChart.invalidate();
+    }
+
+    public void mostrarPieChart() {
+        // Calculamos los datos de nuestro recorrido
+        int numPuntosTotales = fileContent.getNumPuntos();
+        int numPuntosExcelent, numPuntosGood, numPuntosFair, numPuntosPoor;
+        if (tecnologia.equals("4G")) {
+            numPuntosExcelent = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() >= -80).count();
+            numPuntosGood = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() < -80 && ND.getMaxSignal() >= -90).count();
+            numPuntosFair = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() < -90 && ND.getMaxSignal() > -100).count();
+            numPuntosPoor = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() <= -100).count();
+        } else if (tecnologia.equals("2G")) {
+            numPuntosExcelent = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() >= -70).count();
+            numPuntosGood = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() < -70 && ND.getMaxSignal() >= -85).count();
+            numPuntosFair = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() < -85 && ND.getMaxSignal() >= -100).count();
+            numPuntosPoor = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() < -100).count();
+        } else {
+            Log.d("DEBUG", "ERROR en mostrarPieChart(), tecnologia no valida.");
+            return;
+        }
+
+        // Almacenar los valores (calculando el %) y etiquetas del gráfico
+        ArrayList<PieEntry> pieEntries = new ArrayList<>();
+        pieEntries.add(new PieEntry(((float) numPuntosExcelent / (float) numPuntosTotales) * 100, "EXCELENT"));
+        pieEntries.add(new PieEntry(((float) numPuntosGood / (float) numPuntosTotales) * 100, "GOOD"));
+        pieEntries.add(new PieEntry(((float) numPuntosFair / (float) numPuntosTotales) * 100, "FAIR"));
+        pieEntries.add(new PieEntry(((float) numPuntosPoor / (float) numPuntosTotales) * 100, "POOR"));
+
+        // Crear el PieDataSet con los valores y etiquetas
+        PieDataSet pieDataSet = new PieDataSet(pieEntries, "");
+        pieDataSet.setColors(Constantes.COLOR_VERDE, Constantes.COLOR_AMARILLO, Constantes.COLOR_NARANJA, Constantes.COLOR_ROJO);
+
+        PieData pieData = new PieData(pieDataSet);
+        pieData.setValueFormatter(new PercentFormatter()); // Formato de los valores como porcentajes
+
+        // Configurar el objeto PieChart
+        PieChart pieChart = findViewById(R.id.pieChart);
+        pieChart.setData(pieData);
+        pieChart.getDescription().setEnabled(false); // Desactivar la descripción
+        pieChart.setCenterText("%"); // Establecer el texto central
+        pieChart.setDrawEntryLabels(false); // Desactivar las etiquetas de los valores
+        pieChart.setUsePercentValues(true); // Utilizar porcentajes en lugar de valores absolutos
+        pieChart.animateY(1000, Easing.EaseInOutCubic); // Animación del gráfico
+        pieChart.invalidate();
     }
 
     public void mostrarGraficoBarrasSenal() {
@@ -213,48 +260,43 @@ public class AnalysisActivity extends AppCompatActivity {
         barChart.invalidate(); // Actualizar gráfico
     }
 
-    public void mostrarPieChart() {
-        // Calculamos los datos de nuestro recorrido
-        int numPuntosTotales = fileContent.getNumPuntos();
-        int numPuntosExcelent, numPuntosGood, numPuntosFair, numPuntosPoor;
-        if (tecnologia.equals("4G")) {
-            numPuntosExcelent = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() >= -80).count();
-            numPuntosGood = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() < -80 && ND.getMaxSignal() >= -90).count();
-            numPuntosFair = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() < -90 && ND.getMaxSignal() > -100).count();
-            numPuntosPoor = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() <= -100).count();
-        } else if (tecnologia.equals("2G")) {
-            numPuntosExcelent = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() >= -70).count();
-            numPuntosGood = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() < -70 && ND.getMaxSignal() >= -85).count();
-            numPuntosFair = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() < -85 && ND.getMaxSignal() >= -100).count();
-            numPuntosPoor = (int) Arrays.stream(networkData).filter(ND -> ND.getMaxSignal() < -100).count();
-        } else {
-            Log.d("DEBUG", "ERROR en mostrarPieChart(), tecnologia no valida.");
-            return;
-        }
+    public void mostrarGraficoBarrasCeldas() {
+        BarChart barChart = findViewById(R.id.barChartCell);
 
-        // Almacenar los valores (calculando el %) y etiquetas del gráfico
-        ArrayList<PieEntry> pieEntries = new ArrayList<>();
-        pieEntries.add(new PieEntry(((float) numPuntosExcelent / (float) numPuntosTotales) * 100, "EXCELENT"));
-        pieEntries.add(new PieEntry(((float) numPuntosGood / (float) numPuntosTotales) * 100, "GOOD"));
-        pieEntries.add(new PieEntry(((float) numPuntosFair / (float) numPuntosTotales) * 100, "FAIR"));
-        pieEntries.add(new PieEntry(((float) numPuntosPoor / (float) numPuntosTotales) * 100, "POOR"));
+        // Configuración del eje x
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setGranularity(1f);
 
-        // Crear el PieDataSet con los valores y etiquetas
-        PieDataSet pieDataSet = new PieDataSet(pieEntries, "");
-        pieDataSet.setColors(Constantes.COLOR_VERDE, Constantes.COLOR_AMARILLO, Constantes.COLOR_NARANJA, Constantes.COLOR_ROJO);
+        // Configuración del eje y
+        YAxis leftAxis = barChart.getAxisLeft();
+        leftAxis.setDrawGridLines(true);
+        leftAxis.setDrawLabels(true);
+        YAxis rightAxis = barChart.getAxisRight();
+        rightAxis.setEnabled(false); // Quitamos el eje Y del lado izquierdo
 
-        PieData pieData = new PieData(pieDataSet);
-        pieData.setValueFormatter(new PercentFormatter()); // Formato de los valores como porcentajes
+        // Añadimos las barras con los datos
+        List<BarEntry> entries = new ArrayList<>();
+        for (int i = 0; i < networkData.length; i++)
+            entries.add(new BarEntry(i, (float) networkData[i].getNumceldas()));
 
-        // Configurar el objeto PieChart
-        PieChart pieChart = findViewById(R.id.pieChart);
-        pieChart.setData(pieData);
-        pieChart.getDescription().setEnabled(false); // Desactivar la descripción
-        pieChart.setCenterText("%"); // Establecer el texto central
-        pieChart.setDrawEntryLabels(false); // Desactivar las etiquetas de los valores
-        pieChart.setUsePercentValues(true); // Utilizar porcentajes en lugar de valores absolutos
-        pieChart.animateY(1000, Easing.EaseInOutCubic); // Animación del gráfico
-        pieChart.invalidate();
+        BarDataSet dataSet = new BarDataSet(entries, "Signal Values");
+        dataSet.setDrawValues(false);
+
+        // Configuración de los colores de las barras segun el valor y la tecnologia
+        List<Integer> colors = new ArrayList<>();
+        dataSet.setColors(Constantes.COLOR_AZUL);
+
+        // Personaliza y muestra el grafico
+        BarData data = new BarData(dataSet);
+        barChart.setData(data);
+        barChart.getLegend().setEnabled(false); // Desactivamos la leyenda
+        barChart.setVisibleXRangeMinimum(8); // Minimo de barras visibles
+        barChart.setDescription(null); // Quitar la descripcion
+        barChart.setScaleYEnabled(false); // Quitar zoom en el eje Y
+        barChart.animateY(1000); // Agregamos animación de entrada
+        barChart.invalidate(); // Actualizar gráfico
     }
 
     public void mostrarFileContent() {

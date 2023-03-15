@@ -37,12 +37,14 @@
     <string name="numAntenas">Number of antennas to which it was connected:</string>
     <string name="numCambioAntena">Antenna changes produced:</string>
     <string name="distribucionPorEtapa">Distribucion de puntos por etapa:</string>
+    <string name="average_cell">Average number of cells detected per point:</string>
     <string name="del">from</string>
     <string name="al">to</string>
     <string name="AA_textView1">Graph of the maximum signal detected per stage.</string>
-    <string name="AA_textView2">Graph of the maximum signal detected per point.\n(You can zoom in the X axis to see in detail).</string>
+    <string name="AA_textView2">Graph of the maximum signal detected per point.\n(You can zoom in the X-axis to see in detail).</string>
     <string name="AA_textView3">How is the signal quality distributed along the route?</string>
     <string name="AA_textView4">Content of the .json file with all data:</string>
+    <string name="AA_textView5">Plot of cells detected per point.\n(You can zoom in the X-axis to see in detail).</string>
 
     // Errores
     <string name="error_no_name">You must enter the route name.</string>
