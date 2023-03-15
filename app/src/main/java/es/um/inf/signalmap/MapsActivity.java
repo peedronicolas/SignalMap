@@ -76,7 +76,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FusedLocationProviderClient clientLocationProvider;
     private LocationCallback locationCallback;
     private LatLng currentLatLng = null;
-    private int numEtapa = 1, numPunto = 0;
+    private int numEtapa = 1, numPunto = 0, numCambiosAntena = 0;
     private TelephonyManager telephonyManager;
     private LinkedList<NetworkData> networkData = new LinkedList<>();
     private LinkedList<Marker> marcadoresAntenas = new LinkedList<>();
@@ -295,6 +295,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             paint.setStrokeWidth(borderWidth);
             paint.setColor(Color.BLACK);
             canvas.drawCircle(size / 2f, size / 2f, size / 3f - borderWidth / 2f, paint);
+
+            numCambiosAntena++; // Contamos el cambio de antena
         }
 
         // Añadimos el nuevo marcador
@@ -589,7 +591,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void saveInfo(String filename) {
         try {
             String date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
-            FileContent FC = new FileContent(filename, date, tecnologia, numEtapa, networkData.size(), marcadoresAntenas.size(), networkData.toArray(new NetworkData[networkData.size()]));
+            FileContent FC = new FileContent(filename, date, tecnologia, numEtapa, networkData.size(), marcadoresAntenas.size(), numCambiosAntena, networkData.toArray(new NetworkData[networkData.size()]));
 
             StorageHelper.saveStringToFile(filename, new GsonBuilder().setPrettyPrinting().create().toJson(FC), this);
 

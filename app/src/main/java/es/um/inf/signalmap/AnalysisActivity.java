@@ -87,7 +87,7 @@ public class AnalysisActivity extends AppCompatActivity {
         resumen += "- " + getResources().getString(R.string.average_signal) + " " + new DecimalFormat("#.##").format(Arrays.stream(networkData).mapToDouble(NetworkData::getMaxSignal).average().orElse(0.0)) + " dBm" + "\n";
         resumen += "- " + getResources().getString(R.string.min_signal) + " " + (int) Arrays.stream(networkData).mapToDouble(NetworkData::getMaxSignal).min().orElse(0.0) + " dBm" + "\n";
         resumen += "- " + getResources().getString(R.string.numAntenas) + " " + fileContent.getNumAntenas() + "\n";
-        resumen += "- " + getResources().getString(R.string.numCambioAntena) + " " + -1 + "\n";
+        resumen += "- " + getResources().getString(R.string.numCambioAntena) + " " + fileContent.getNumCambiosAntena() + "\n";
         resumen += "\n\n";
         resumen += getResources().getString(R.string.distribucionPorEtapa) + "\n";
 
