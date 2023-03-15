@@ -72,29 +72,29 @@ public class AnalysisActivity extends AppCompatActivity {
 
     public void mostrarAviso() {
         TextView textViewAviso = findViewById(R.id.textViewAviso);
-        textViewAviso.setText("Aviso: Recuerda que todos los valores de señal están medidos en dBm, por lo que los mejores puntos donde se obtuvo señal es en los minimos de las gráficas, no en los máximos.");
+        textViewAviso.setText(getResources().getString(R.string.aviso));
     }
 
     public void mostrarResumen() {
         TextView textViewResumen = findViewById(R.id.textViewResumen);
         String resumen = "";
 
-        resumen += "Aquí un resumen de tu recorrido:\n\n";
-        resumen += "- Tecnología: " + fileContent.getTecnologia() + "\n";
-        resumen += "- Total de puntos: " + fileContent.getNumPuntos() + "\n";
-        resumen += "- Total de etapas: " + fileContent.getNumEtapas() + "\n";
-        resumen += "- Maxima señal detectada del recorrido: " + Arrays.stream(networkData).mapToDouble(NetworkData::getMaxSignal).max().orElse(0.0) + " dBm" + "\n";
-        resumen += "- Media de los máximos detectados: " + new DecimalFormat("#.##").format(Arrays.stream(networkData).mapToDouble(NetworkData::getMaxSignal).average().orElse(0.0)) + " dBm" + "\n";
-        resumen += "- Minimo de los máximos detectados: " + (int) Arrays.stream(networkData).mapToDouble(NetworkData::getMaxSignal).min().orElse(0.0) + " dBm" + "\n";
-        resumen += "- Cantidad de antenas a las que se conectó: " + fileContent.getNumAntenas() + "\n";
-        resumen += "- Cambios de antenas producidos: " + -1 + "\n";
+        resumen += getResources().getString(R.string.resumen) + "\n\n";
+        resumen += "- " + getResources().getString(R.string.tecnologia) + " " + fileContent.getTecnologia() + "\n";
+        resumen += "- " + getResources().getString(R.string.total_puntos) + " " + fileContent.getNumPuntos() + "\n";
+        resumen += "- " + getResources().getString(R.string.total_etapas) + " " + fileContent.getNumEtapas() + "\n";
+        resumen += "- " + getResources().getString(R.string.max_signal) + " " + Arrays.stream(networkData).mapToDouble(NetworkData::getMaxSignal).max().orElse(0.0) + " dBm" + "\n";
+        resumen += "- " + getResources().getString(R.string.average_signal) + " " + new DecimalFormat("#.##").format(Arrays.stream(networkData).mapToDouble(NetworkData::getMaxSignal).average().orElse(0.0)) + " dBm" + "\n";
+        resumen += "- " + getResources().getString(R.string.min_signal) + " " + (int) Arrays.stream(networkData).mapToDouble(NetworkData::getMaxSignal).min().orElse(0.0) + " dBm" + "\n";
+        resumen += "- " + getResources().getString(R.string.numAntenas) + " " + fileContent.getNumAntenas() + "\n";
+        resumen += "- " + getResources().getString(R.string.numCambioAntena) + " " + -1 + "\n";
         resumen += "\n\n";
-        resumen += "Distribucion de puntos por etapa:\n";
+        resumen += getResources().getString(R.string.distribucionPorEtapa) + "\n";
 
         // Para agrupar por etapas y obtener el idPunto maximo y minimo de cada una (donde empieza y donde acaba)
         Map<Integer, IntSummaryStatistics> map = Arrays.stream(networkData).collect(Collectors.groupingBy(NetworkData::getEtapa, Collectors.summarizingInt(NetworkData::getId_punto)));
         for (Map.Entry<Integer, IntSummaryStatistics> entry : map.entrySet())
-            resumen += "\n- Etapa " + entry.getKey() + ": del " + entry.getValue().getMin() + " al " + entry.getValue().getMax() + ".";
+            resumen += "\n- " + getResources().getString(R.string.etapa) + " " + entry.getKey() + ": " + getResources().getString(R.string.del) + " " + entry.getValue().getMin() + " " + getResources().getString(R.string.al) + " " + entry.getValue().getMax() + ".";
 
         textViewResumen.setText(resumen);
     }

@@ -29,6 +29,23 @@
 
     // Analysis Activity
     <string name="etapa">Etapa</string>
+    <string name="aviso">Aviso: Recuerda que todos los valores de señal están medidos en dBm, por lo que los mejores puntos donde se obtuvo señal es en los minimos de las gráficas, no en los máximos.</string>
+    <string name="resumen">Aquí un resumen de tu recorrido:</string>
+    <string name="tecnologia">Tecnología:</string>
+    <string name="total_puntos">Total de puntos:</string>
+    <string name="total_etapas">Total de etapas:</string>
+    <string name="max_signal">Maxima señal detectada del recorrido:</string>
+    <string name="average_signal">Media de los máximos detectados:</string>
+    <string name="min_signal">Minimo de los máximos detectados:</string>
+    <string name="numAntenas">Cantidad de antenas a las que se conectó:</string>
+    <string name="numCambioAntena">Cambios de antenas producidos:</string>
+    <string name="distribucionPorEtapa">Distribucion de puntos por etapa:</string>
+    <string name="del">del</string>
+    <string name="al">al</string>
+    <string name="AA_textView1">Gráfica de la señal máxima detectada por etapa.</string>
+    <string name="AA_textView2">Gráfica de la señal máxima detectada por punto.\n(Se puede hacer zoom en el eje X para ver en detalle)</string>
+    <string name="AA_textView3">¿Cómo se reparte la calidad de la señal a lo largo del recorrido?</string>
+    <string name="AA_textView4">Contenido del fichero .json con todos los datos:</string>
 
     // Errores
     <string name="error_no_name">Debe introducir el nombre de recorrido.</string>
@@ -37,7 +54,6 @@
     <string name="confirmacion_retroceso">¿Desea salir del mapa?\nLos datos podrían perderse.</string>
     <string name="error_no_permisos_almacenamiento">Se necesitan los permisos de almacenamiento para abrir el explorador de archivos.</string>
     <string name="error_fichero">Error leyendo o deserializando el fichero.\nPodría estar mal formado el JSON.</string>
-
 
     // Otros
     <string name="si">Si</string>
